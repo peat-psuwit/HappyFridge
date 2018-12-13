@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "784715134111",
+    "firebase_url": "https://peat-network-happy-fridge.firebaseio.com",
+    "project_id": "peat-network-happy-fridge",
+    "storage_bucket": "peat-network-happy-fridge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784715134111:android:08e2278e65af314c",
+        "android_client_info": {
+          "package_name": "xyz.peat_network.happyfridge.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784715134111-3icuhmu52kp41600r9oiuj3p8hvn57tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdZVK_xaz2mv1HeG41llgayCM4wL28pW4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
