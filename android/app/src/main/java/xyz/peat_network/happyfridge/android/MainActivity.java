@@ -1,4 +1,4 @@
-package com.happyfridge;
+package xyz.peat_network.happyfridge.android;
 
 import com.facebook.react.ReactActivity;
 

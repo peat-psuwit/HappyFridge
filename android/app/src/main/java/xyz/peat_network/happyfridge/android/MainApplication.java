@@ -1,4 +1,4 @@
-package com.happyfridge;
+package xyz.peat_network.happyfridge.android;
 
 import android.app.Application;
 
