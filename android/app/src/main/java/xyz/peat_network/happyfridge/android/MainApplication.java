@@ -12,6 +12,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
 // RNFirebase packages. Keep this list sorted.
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebasePackage(),
 
           // RNFirebase packages. Keep this list sorted.
+          new RNFirebaseAuthPackage(),
           new RNFirebaseFirestorePackage(),
           new RNFirebaseStoragePackage()
       );
