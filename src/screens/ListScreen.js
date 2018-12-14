@@ -11,7 +11,7 @@ function ListScreen() {
 }
 
 ListScreen.navigationOptions = {
-  drawerLabel: 'ตู้เย็นของฉัน',
+  title: 'ตู้เย็นของฉัน',
 };
 
 export default ListScreen;
