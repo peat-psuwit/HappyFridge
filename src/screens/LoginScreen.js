@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Alert,
   StyleSheet,
   Text,
@@ -87,13 +88,21 @@ class LoginScreen extends React.Component {
         <Text style={styles.headingText}>Happy</Text>
         <Text style={styles.headingText}>Fridge</Text>
 
-        <GoogleSigninButton
-          style={styles.signInButton}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={this.handleSignInClick}
-          disabled={isSigninInProgress}
-        />
+        <View style={styles.signInButtonContainer}>
+          <GoogleSigninButton
+            style={styles.signInButton}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={this.handleSignInClick}
+            disabled={isSigninInProgress}
+          />
+          {isSigninInProgress ? (
+            <ActivityIndicator
+              size="small"
+              style={styles.signInButtonActivity}
+            />
+          ) : null}
+        </View>
       </View>
     )
   }
@@ -109,11 +118,25 @@ const styles = StyleSheet.create({
     fontSize: 60,
     fontWeight: 'bold',
   },
+  signInButtonContainer: {
+    // Size is recommended from RN-google-signin
+    width: 312,
+    height: 48,
+
+    marginTop: 48,
+  },
   signInButton: {
     // Size is recommended from RN-google-signin
     width: 312,
     height: 48,
-    marginTop: 48,
+  },
+  signInButtonActivity: {
+    position: 'absolute',
+    width: 24,
+    height: 24,
+    // Position this in the middle of the button
+    left: (312 - 24) / 2,
+    top: (48 - 24) / 2,
   },
 });
 
