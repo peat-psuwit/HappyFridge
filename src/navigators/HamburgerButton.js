@@ -15,7 +15,7 @@ const TITLE_OFFSET_LEFT_ALIGN = Platform.OS === 'ios' ? 20 : 56;
 function HamburgerButton({ onPress }) {
   return (
     <TouchableItem style={styles.item} onPress={onPress}>
-      <Image source={hamburger_icon} />
+      <Image source={hamburger_icon} fadeDuration={0} />
     </TouchableItem>
   );
 }
