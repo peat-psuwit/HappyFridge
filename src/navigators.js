@@ -20,7 +20,7 @@ import CameraScreen from './screens/CameraScreen';
 import InputScreen from './screens/InputScreen';
 import MenuScreen from './screens/MenuScreen';
 
-const DrawerNavigator = createDrawerNavigator({
+const DrawerSwitchNavigator = createSwitchNavigator({
   ListScreen,
   ExpiredListScreen,
   MenuSelectionScreen,
@@ -29,18 +29,24 @@ const DrawerNavigator = createDrawerNavigator({
   initialRouteName: 'ListScreen',
 });
 
-DrawerNavigator.navigationOptions = {
+DrawerSwitchNavigator.navigationOptions = {
   headerTitle: 'TODO: ดึงข้อมูลจากหน้าลูก',
 };
 
-const MainNavigator = createStackNavigator({
-  DrawerNavigator,
+const MainStackNavigator = createStackNavigator({
+  DrawerSwitchNavigator,
   AboutScreen,
   CameraScreen,
   MenuScreen,
   InputScreen,
 }, {
-  initialRouteName: 'DrawerNavigator',
+  initialRouteName: 'DrawerSwitchNavigator',
+});
+
+const MainNavigator = createDrawerNavigator({
+  MainStackNavigator,
+}, {
+  initialRouteName: 'MainStackNavigator',
 });
 
 export const RootNavigator = createSwitchNavigator({
