@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 
-import TouchableItem from './TouchableItem';
+import TouchableItem from '../util/TouchableItem';
 
 function DrawerItem({
   label,
