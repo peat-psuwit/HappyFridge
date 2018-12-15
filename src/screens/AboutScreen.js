@@ -10,4 +10,8 @@ function AboutScreen() {
   );
 }
 
+AboutScreen.navigationOptions = {
+  title: 'เกี่ยวกับ',
+};
+
 export default AboutScreen;
