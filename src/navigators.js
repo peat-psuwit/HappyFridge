@@ -29,6 +29,7 @@ const DrawerSwitchNavigator = createSwitchNavigator({
   MyMenuScreen,
 }, {
   initialRouteName: 'ListScreen',
+  backBehavior: 'initialRoute',
 });
 
 DrawerSwitchNavigator.navigationOptions = {
@@ -50,6 +51,7 @@ const MainNavigator = createDrawerNavigator({
 }, {
   initialRouteName: 'MainStackNavigator',
   contentComponent: Drawer,
+  backBehavior: 'none',
 });
 
 export const RootNavigator = createSwitchNavigator({
