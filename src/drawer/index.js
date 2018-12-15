@@ -15,6 +15,7 @@ import MyMenuScreen from '../screens/MyMenuScreen';
 import AboutScreen from '../screens/AboutScreen';
 
 import getChildNavigatorState from './getChildNavigatorState';
+import DrawerHeader from './DrawerHeader';
 import DrawerItem from './DrawerItem';
 import HorizontalLine from './HorizontalLine';
 
@@ -64,8 +65,10 @@ function Drawer({ navigation }) {
   const activeScreen = getDswActiveScreen(navigation.state);
 
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+    <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+      <DrawerHeader />
+
+      <ScrollView>
         {Object.entries(upperDrawerScreens).map(([screenName, screenComponent]) => {
           const screenOptions = screenComponent.navigationOptions || {};
           const isActive = (activeScreen === screenName);
@@ -87,8 +90,8 @@ function Drawer({ navigation }) {
           isActive={false}
           onPress={() => { /* TODO */ }}
         />
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
