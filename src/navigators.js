@@ -20,6 +20,8 @@ import CameraScreen from './screens/CameraScreen';
 import InputScreen from './screens/InputScreen';
 import MenuScreen from './screens/MenuScreen';
 
+import Drawer from './drawer';
+
 const DrawerSwitchNavigator = createSwitchNavigator({
   ListScreen,
   ExpiredListScreen,
@@ -47,6 +49,7 @@ const MainNavigator = createDrawerNavigator({
   MainStackNavigator,
 }, {
   initialRouteName: 'MainStackNavigator',
+  contentComponent: Drawer,
 });
 
 export const RootNavigator = createSwitchNavigator({
