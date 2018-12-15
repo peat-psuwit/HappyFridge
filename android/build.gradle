@@ -7,6 +7,8 @@ buildscript {
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
+        // Match "play-services-base" version when upgrade RN-firebase
+        googlePlayServicesAuthVersion = "16.0.1"
     }
     repositories {
         google()
