@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemIndent: {
-    marginLeft: 16,
+   paddingLeft: 16,
   },
 });
 
