@@ -19,8 +19,8 @@ class MyMenuScreen extends React.Component {
 
   subscribeToFirestore() {
     const auth = firebase.auth();
-    const uid = "gPuJ3ovxyZxzdKnMezVE"
-    const docRef = firestore.collection('users').doc('gPuJ3ovxyZxzdKnMezVE')
+    const uid = auth.currentUser.uid;
+    const docRef = firestore.collection('users').doc(uid)
     this.userSubscription = docRef.onSnapshot((doc) => {
       this.setState({ user : doc.data() });
     });
