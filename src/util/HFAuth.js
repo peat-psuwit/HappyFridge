@@ -64,7 +64,14 @@ const HFAuth = {
 
       throw error;
     }
-  }
+  },
+
+  async signOut() {
+    await Promise.all([
+      GoogleSignin.signOut(),
+      auth.signOut(),
+    ]);
+  },
 };
 
 export default HFAuth;

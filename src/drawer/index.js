@@ -14,6 +14,8 @@ import MyMenuScreen from '../screens/MyMenuScreen';
 // Screens for lower drawer
 import AboutScreen from '../screens/AboutScreen';
 
+import HFAuth from '../util/HFAuth';
+
 import getChildNavigatorState from './getChildNavigatorState';
 import DrawerHeader from './DrawerHeader';
 import DrawerItem from './DrawerItem';
@@ -88,7 +90,7 @@ function Drawer({ navigation }) {
           key="logout"
           label="ออกจากระบบ"
           isActive={false}
-          onPress={() => { /* TODO */ }}
+          onPress={() => { HFAuth.signOut() }}
         />
       </ScrollView>
     </SafeAreaView>
