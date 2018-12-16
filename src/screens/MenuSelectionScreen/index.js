@@ -11,6 +11,14 @@ import DifficulityPicker from './DifficulityPicker';
 import MenuFinder from './MenuFinder';
 
 class MenuSelectionScreen extends React.Component {
+  state = {
+    difficulity: null,
+  };
+
+  handleDifficulityChanged = (value) => {
+    this.setState({ difficulity: value });
+  }
+
   renderIngredient = ({ item: id }) => {
     return <IngredientEntry id={id} />;
   }
@@ -41,7 +49,8 @@ class MenuSelectionScreen extends React.Component {
           <View style={styles.menuSectionHeaderContainer}>
             <Text style={styles.subHeadingText}>เมนู</Text>
             <DifficulityPicker
-              selectedValue={null}
+              selectedValue={this.state.difficulity}
+              onValueChange={this.handleDifficulityChanged}
               style={styles.picker}
             />
           </View>
