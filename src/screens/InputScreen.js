@@ -1,15 +1,24 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, DatePickerAndroid } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import SearchableDropDown from 'react-native-searchable-dropdown';
+import firebase from 'react-native-firebase';
 
 class InputScreen extends React.Component {
   // Stub
-  
   state = {
     foodType: '',
-    foodNum: '',
+    foodAmount: 0,
     foodExpiredDate: new Date(),
+    foodUnit: 'ชิ้น',
+    foodId: '',
+    defaultPicURL: '',
+    items:[]
   };
+
+  componentDidMount() {
+    this.getItem();
+  }
 
   openAndroidDatePicker = async function() {
     try {
@@ -31,23 +40,125 @@ class InputScreen extends React.Component {
     }
   }
 
+  setItemForUpload = (url = undefined) => {
+    let tmpObject = {};
+    tmpObject.picture = url ? url : this.state.defaultPicURL;
+    tmpObject.itemId = this.state.foodId,
+    tmpObject.name = this.state.foodType,
+    tmpObject.amount = this.state.foodAmount,
+    tmpObject.unit = this.state.foodUnit,
+    tmpObject.expDate = this.state.foodExpiredDate
+
+    return tmpObject;
+  }
+
+  fridgeItemUploadAndNavigate = (uri) => {
+    const auth = firebase.auth();
+    const uid = auth.currentUser.uid;
+    const fridgeItemRef = firebase.firestore().collection(`users/${uid}/fridgeItems`).doc();
+    if(uri !== undefined){
+      firebase.storage()
+      .ref(`users/${uid}/fridgeItems/${fridgeItemRef.id}.jpg`)
+      .putFile(uri)
+      .catch(err => {
+      console.log("Error:", err);
+    }).then(() => {
+      firebase.storage()
+    .ref(`users/${uid}/fridgeItems/${fridgeItemRef.id}.jpg`)
+    .getDownloadURL()
+    .then((url) => {
+      let tmpObject = this.setItemForUpload(url);
+      fridgeItemRef.set(tmpObject)
+      this.props.navigation.navigate('ListScreen');
+      })
+    })
+    }
+    else {
+      let tmpObject = this.setItemForUpload();
+      fridgeItemRef.set(tmpObject)
+      this.props.navigation.navigate('ListScreen');
+    }
+  }
+
+  getItem = () => {
+    const itemsRef = firebase.firestore().collection('items')
+    itemsRef.get().then(QuerySnapshot => {
+      this.setState({
+        items: QuerySnapshot.docs.map(obj => {
+                    return {id:obj.id, data:obj.data()}
+               })
+      }) 
+    })
+  }
+
+  setFoodTypeAndUnit = (item) => {
+    this.state.items.forEach( obj => {
+      if(obj.data.name === item.name) {
+        this.setState({
+          foodType: item.name,
+          foodUnit: obj.data.defaultUnit,
+          foodId: obj.id,
+          defaultPicURL: obj.data.defaultPicture
+        })
+      }
+    })
+  }
+
   render(){
     const imageData = this.props.navigation.getParam("imageData","there is no spoon");
     return (
       <View style={styles.container} >
         <Image source={{uri: imageData.uri}} style={styles.image} />
-        <Text>ประเภทอาหาร</Text>
-        <TextInput onChangeText={(text) => this.setState({foodType:text})} style={styles.textBox} />
-        <Text>ปริมาณ</Text>
-        <TextInput onChangeText={(text) => this.setState({foodNum:text})} keyboardType={"number-pad"} style={styles.textBox} />
-        <Text>หมดอายุ</Text>
-        <TextInput onChangeText={(text) => this.setState({foodType:text})} style={styles.textBox} />
-        <TouchableOpacity onPress={() => this.openAndroidDatePicker()} style={styles.textBox} >
-          <Text style={{ fontSize: 14 }}> {this.state.foodExpiredDate.toDateString()} </Text>
-        </TouchableOpacity>
-        <Text>{this.state.foodType}</Text>
-        <Text>InputScreen</Text>
-        <Text>{imageData.uri}</Text>
+
+        <View style={{flex:0.3}} >
+          <Text style={{flex:0.2}} >ประเภทอาหาร</Text>
+          <SearchableDropDown 
+          style={{flex:0.8}}
+          onItemSelect={(item) => this.setFoodTypeAndUnit(item)}
+          items={this.state.items.map(obj => {
+            return {name: obj.data.name}
+          })}
+          itemTextStyle={{color:'black'}}
+          containerStyle={{height:140, flex: 0.8}}
+          itemsContainerStyle={{maxHeight: 140, height:20, flex:0.8}}
+          underlineColorAndroid="black"
+          placeholder="เลือกชนิดวัตถุดิบ"
+          />
+        </View>
+        
+        <View style={{flex:0.15, flexDirection:'column'}}>
+          <Text style={{flex:0.4}} >ปริมาณ</Text>
+          <View style={styles.amountBox} >
+            <TextInput 
+              onChangeText={(text) => this.setState({foodAmount:parseInt(text)})} 
+              keyboardType={"number-pad"}  
+              style={{flex:0.8, borderBottomColor: 'gray', borderBottomWidth: 1,}}
+              />
+            <Text style={{flex:0.2}}>{this.state.foodUnit}</Text>
+          </View>
+        </View>
+
+        <View style={{flex:0.15}} >
+          <Text style={{flex:0.5}} >หมดอายุ</Text>
+          <TouchableOpacity onPress={() => this.openAndroidDatePicker()} style={styles.textBox} >
+            <Text style={{ fontSize: 14, flex:1 }}> {this.state.foodExpiredDate.toDateString()} </Text>
+          </TouchableOpacity>
+        </View>
+        
+        <View style={styles.submitButton}>
+          <TouchableOpacity onPress={() => this.fridgeItemUploadAndNavigate(imageData.uri)}
+          style={{ justifyContent:'center', alignItems:'center' }}
+          >
+          <Text style={{ fontSize: 14, justifyContent:'center', alignItems:'center' }}> บันทึก </Text>
+          </TouchableOpacity>
+        </View>
+
+
+        {/* <TouchableOpacity onPress={() => console.log(this.state.foodType + this.state.foodUnit) } style={styles.textBox} >
+          <Text style={{ fontSize: 14 }}> test </Text>
+        </TouchableOpacity> */}
+
+
       </View>
    );
   }
@@ -55,7 +166,6 @@ class InputScreen extends React.Component {
 
 
 }
-// defaultSource={require('../images/not-found.png')}
 
 const styles = StyleSheet.create({
   container: {
@@ -65,13 +175,33 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   image: {
-    flex: 0.4,
+    flex: 0.3,
     flexDirection: 'column',
     alignItems: 'stretch',
+    backgroundColor: 'black',
+  },
+  amountBox: {
+    flex: 0.6,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start'
   },
   textBox: {
+    flex: 0.5,
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
+  },
+  itemsContainer: {
+    maxHeight: 140,
+    height:20,
+    flex: 0.8,
+  },
+  submitButton:{
+    flex:0.1,
+    borderWidth: 2, 
+    borderBottomColor: 'gray',
+    backgroundColor: 'gray',
+    opacity:0.2
   }
 });
 

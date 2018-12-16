@@ -3,14 +3,10 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 function CameraScreen({ navigation }) {
-  // Stub
   takePicture = async function(camera) {
     const options = { quality: 0.5 };
     const data = await camera.takePictureAsync(options);
-    //  eslint-disable-next-line
-    console.log(data.uri);
     navigation.navigate("InputScreen", { imageData:data });
-    
   }
 
   return (
