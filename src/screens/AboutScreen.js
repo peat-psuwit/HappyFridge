@@ -35,6 +35,10 @@ function AboutScreen() {
   );
 }
 
+AboutScreen.navigationOptions = {
+  title: 'เกี่ยวกับ',
+};
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'stretch',
