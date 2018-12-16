@@ -12,6 +12,7 @@ function MyMenuScreen() {
 
 MyMenuScreen.navigationOptions = {
   title: 'เมนูของฉัน',
+  drawerIndent: true,
 };
 
 export default MyMenuScreen;
