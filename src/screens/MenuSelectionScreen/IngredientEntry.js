@@ -5,17 +5,42 @@ import {
   Text,
   View,
 } from 'react-native';
+import firebase from 'react-native-firebase';
+
+const firestore = firebase.firestore();
 
 class IngredientEntry extends React.Component {
-  render() {
+  state = {
+    ingredient: {
+      name: '',
+      defaultPicture: null,
+    },
+  };
+
+  retrieveIngredientInfo() {
     const { id } = this.props;
+
+    firestore.collection('items')
+             .doc(id)
+             .get()
+      .then((docSnapshot) => {
+        this.setState({ ingredient: docSnapshot.data() });
+      });
+  }
+
+  componentDidMount() {
+    this.retrieveIngredientInfo();
+  }
+
+  render() {
+    const { ingredient } = this.state;
     return (
       <View style={styles.container}>
         <Image
-          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Schweinebauch-2.jpg/330px-Schweinebauch-2.jpg' }}
+          source={{ uri: ingredient.defaultPicture }}
           style={styles.image}
         />
-        <Text>{id}</Text>
+        <Text style={styles.name}>{ingredient.name}</Text>
       </View>
     );
   }
@@ -32,6 +57,10 @@ const styles = StyleSheet.create({
     borderRadius: 32,
 
     marginBottom: 8,
+  },
+  name: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
   },
 });
 

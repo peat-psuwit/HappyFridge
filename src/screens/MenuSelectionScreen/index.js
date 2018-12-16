@@ -10,24 +10,31 @@ import IngredientEntry from './IngredientEntry';
 import DifficulityPicker from './DifficulityPicker';
 import MenuFinder from './MenuFinder';
 
-const items = ['0011000'];
-
 class MenuSelectionScreen extends React.Component {
   renderIngredient = ({ item: id }) => {
     return <IngredientEntry id={id} />;
   }
 
   render() {
+    const { navigation } = this.props;
+    const { selectedItems = [] } = navigation.state.params || {};
+
     return (
       <View>
         <View style={styles.ingredientContainer}>
           <Text style={styles.subHeadingText}>วัตถุดิบที่เลือก</Text>
-          <FlatList
-            horizontal
-            data={items}
-            renderItem={this.renderIngredient}
-            keyExtractor={item => item}
-          />
+          {selectedItems.length > 0 ? (
+            <FlatList
+              horizontal
+              data={selectedItems}
+              renderItem={this.renderIngredient}
+              keyExtractor={item => item}
+            />
+          ) : (
+            <View style={styles.ingredientPlaceholder}>
+              <Text>ไม่ได้เลือกวัตถุดิบไว้</Text>
+            </View>
+          )}
         </View>
 
         <View>
@@ -55,6 +62,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  ingredientPlaceholder: {
+    height: 64 + (16 * 2),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   menuSectionHeaderContainer: {
     paddingHorizontal: 16,
