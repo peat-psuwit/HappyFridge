@@ -27,7 +27,7 @@ class MyMenuScreen extends React.Component {
   }
 
   unsubscribeFromFirestore() {
-    this.subscription();
+    this.userSubscription();
   }
 
   componentDidMount() {

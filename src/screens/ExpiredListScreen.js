@@ -171,7 +171,8 @@ class ExpiredListScreen extends Component {
   };
 }
 ExpiredListScreen.navigationOptions = {
-  title: "ของหมดอายุ"
+  title: "ของหมดอายุ",
+  drawerIndent: true,
 };
 
 export default ExpiredListScreen;
