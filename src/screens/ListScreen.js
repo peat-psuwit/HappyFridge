@@ -134,16 +134,19 @@ class ListScreen extends Component {
   };
  
  handlePressDel =(item)=>{
-  collection = firestore.collection('users')
-                              .doc(uid)
-                              .collection('fridgeItems')
-                              .doc(item._id)
-                              .delete()
-                              .then(function() {
-                                  alert(item.name+" Document successfully deleted!");
-                                }).catch(function(error) {
-                                     alert("Error removing document: ", error);
-                                });
+  const auth = firebase.auth();
+  const uid = auth.currentUser.uid;
+  collection = firestore
+    .collection('users')
+    .doc(uid)
+    .collection('fridgeItems')
+    .doc(item._id)
+    .delete()
+    .then(function() {
+        alert(item.name+" Document successfully deleted!");
+      }).catch(function(error) {
+            alert("Error removing document: ", error);
+      });
  }
  handlePressSelect =(item)=>{
     //select food
