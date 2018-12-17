@@ -46,8 +46,8 @@ class MyMenuScreen extends React.Component {
   }
 
   render() {
-    const { user } = this.state;
-    const { favorites } = user;
+    const { user = {} } = this.state;
+    const { favorites = [] } = user;
       return (
         <FlatList
         data={favorites}
