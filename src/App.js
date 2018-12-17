@@ -1,8 +1,7 @@
 import React from 'react';
 import { createAppContainer, NavigationActions } from 'react-navigation';
-import firebase from 'react-native-firebase';
 
-const auth = firebase.auth();
+import HFAuth from './util/HFAuth';
 
 import { RootNavigator } from './navigators';
 
@@ -43,7 +42,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.authSubscription =
-      auth.onAuthStateChanged(this.handleAuthStateChanged);
+      HFAuth.onAuthStateChanged(this.handleAuthStateChanged);
   }
 
   componentWillUnmount() {

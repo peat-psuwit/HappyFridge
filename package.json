@@ -1,3 +1,4 @@
+
 {
   "name": "HappyFridge",
   "version": "0.0.1",
@@ -9,12 +10,14 @@
   "dependencies": {
     "react": "16.6.1",
     "react-native": "0.57.7",
+    "react-native-camera": "^1.6.3",
     "react-native-elements": "^0.19.1",
     "react-native-firebase": "^5.1.1",
     "react-native-gesture-handler": "^1.0.11",
     "react-native-google-signin": "^1.0.2",
-    "react-native-vector-icons": "^6.1.0",
-    "react-navigation": "^3.0.8"
+    "react-native-searchable-dropdown": "^1.0.6",
+    "react-navigation": "^3.0.8",
+    "yarn": "^1.12.3"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
