@@ -49,7 +49,9 @@ class MenuEntry extends React.Component {
             source={{ uri : picture}}
             style={styles.image}
           />
-          <Text>{name}</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>{name}</Text>
+          </View>
         </View>
       </TouchableHighlight>
     );
@@ -63,22 +65,25 @@ const styles = StyleSheet.create({
     borderBottomColor: 'lightgrey',
   },
   container: {
-    flex: 1,
     flexDirection: 'row',
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
     backgroundColor: 'white',
   },
   image: {
     width: 48,
     height: 48,
+    borderRadius: 24,
+    marginRight: 40,
   },
   textContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    marginLeft: 16,
+    flexDirection: 'row',
   },
   title: {
     fontWeight: 'bold',
+    fontSize: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   artist: {
     fontWeight: 'normal',
