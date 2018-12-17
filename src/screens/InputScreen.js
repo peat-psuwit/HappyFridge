@@ -5,15 +5,15 @@ import SearchableDropDown from 'react-native-searchable-dropdown';
 import firebase from 'react-native-firebase';
 
 class InputScreen extends React.Component {
-  // Stub
   state = {
     foodType: '',
     foodAmount: 0,
     foodExpiredDate: new Date(),
     foodUnit: 'ชิ้น',
     foodId: '',
-    defaultPicURL: '',
-    items:[]
+    displayPicURL: '',
+    items:[],
+    haveTakePic: false,
   };
 
   componentDidMount() {
@@ -40,9 +40,9 @@ class InputScreen extends React.Component {
     }
   }
 
-  setItemForUpload = (url = undefined) => {
+  setItemForUpload = (url = false) => {
     let tmpObject = {};
-    tmpObject.picture = url ? url : this.state.defaultPicURL;
+    tmpObject.picture = url ? url : this.state.displayPicURL;
     tmpObject.itemId = this.state.foodId,
     tmpObject.name = this.state.foodType,
     tmpObject.amount = this.state.foodAmount,
@@ -52,14 +52,14 @@ class InputScreen extends React.Component {
     return tmpObject;
   }
 
-  fridgeItemUploadAndNavigate = (uri) => {
+  fridgeItemUploadAndNavigate = () => {
     const auth = firebase.auth();
     const uid = auth.currentUser.uid;
     const fridgeItemRef = firebase.firestore().collection(`users/${uid}/fridgeItems`).doc();
-    if(uri !== undefined){
+    if(this.state.haveTakePic){
       firebase.storage()
       .ref(`users/${uid}/fridgeItems/${fridgeItemRef.id}.jpg`)
-      .putFile(uri)
+      .putFile(this.state.displayPicURL)
       .catch(err => {
       console.log("Error:", err);
     }).then(() => {
@@ -82,6 +82,13 @@ class InputScreen extends React.Component {
 
   getItem = () => {
     const itemsRef = firebase.firestore().collection('items')
+    const imageData = this.props.navigation.getParam("imageData",false);
+    if(imageData !== false){
+      this.setState({
+        displayPicURL: imageData.uri,
+        haveTakePic: true
+      })
+    }
     itemsRef.get().then(QuerySnapshot => {
       this.setState({
         items: QuerySnapshot.docs.map(obj => {
@@ -98,17 +105,20 @@ class InputScreen extends React.Component {
           foodType: item.name,
           foodUnit: obj.data.defaultUnit,
           foodId: obj.id,
-          defaultPicURL: obj.data.defaultPicture
         })
+        if(!this.state.haveTakePic){
+          this.setState({
+            displayPicURL: obj.data.defaultPicture
+          })
+        }
       }
     })
   }
 
   render(){
-    const imageData = this.props.navigation.getParam("imageData","there is no spoon");
     return (
       <View style={styles.container} >
-        <Image source={{uri: imageData.uri}} style={styles.image} />
+        <Image source={{uri: this.state.displayPicURL}} style={styles.image} />
 
         <View style={{flex:0.3}} >
           <Text style={{flex:0.2}} >ประเภทอาหาร</Text>
@@ -146,25 +156,16 @@ class InputScreen extends React.Component {
         </View>
         
         <View style={styles.submitButton}>
-          <TouchableOpacity onPress={() => this.fridgeItemUploadAndNavigate(imageData.uri)}
+          <TouchableOpacity onPress={() => this.fridgeItemUploadAndNavigate()}
           style={{ justifyContent:'center', alignItems:'center' }}
           >
           <Text style={{ fontSize: 14, justifyContent:'center', alignItems:'center' }}> บันทึก </Text>
           </TouchableOpacity>
         </View>
 
-
-        {/* <TouchableOpacity onPress={() => console.log(this.state.foodType + this.state.foodUnit) } style={styles.textBox} >
-          <Text style={{ fontSize: 14 }}> test </Text>
-        </TouchableOpacity> */}
-
-
       </View>
    );
   }
-
-
-
 }
 
 const styles = StyleSheet.create({
