@@ -1,43 +1,56 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet, } from 'react-native';
-import { firebase } from 'react-native-firebase';
+import { Text, View, Image, StyleSheet, FlatList } from 'react-native';
+import firebase from 'react-native-firebase';
 
-const 
+import TouchableItem from '../util/TouchableItem' 
 
-class MenuScreen  extends React.Component {
-  handleIngredientChange = () => {
 
+// const auth = firebase.auth();
+// const uid = auth.currentUser.uid;
+const firestore = firebase.firestore();
+const menuRef = firestore.collection('menus').doc(menuId);
+
+class MenuScreen extends React.Component {
+
+  static navigationOption = {
+    title: 'Menu Screen'
   }
+
+  state = {
+    menu: {},
+    fItemList: [],
+  }
+
+  componentDidMount(){
+    this.get
+  }
+
+  handleCookPressed = () =>{
+    
+  }
+
 
   render () {
-    
 
 
-    return (
-
-    )
+    return;
   }
+
 }
 
-// function MenuScreen() {
-//   // Stub
 
-//   return (
-//     <View>
-//       <Text>MenuScreen</Text>
-//     </View>
-//   );
-// }
+const  styles = StyleSheet.create({
 
-// const  styles = StyleSheet.create({
-//   container: {
 
-//   },
+
+  // container: {
+
+  // },
   
-//   image: {
+  // image: {
     
-//   },
+  // },
   
-// });
+});
 
 export default MenuScreen;
