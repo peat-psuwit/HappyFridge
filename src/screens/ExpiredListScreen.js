@@ -12,6 +12,7 @@ function ExpiredListScreen() {
 
 ExpiredListScreen.navigationOptions = {
   title: 'ของที่หมดอายุแล้ว',
+  drawerIndent: true,
 };
 
 export default ExpiredListScreen;
