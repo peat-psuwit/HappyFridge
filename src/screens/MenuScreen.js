@@ -2,8 +2,6 @@ import React from 'react';
 import { Text, View, Image, StyleSheet, FlatList, } from 'react-native';
 import firebase from 'react-native-firebase';
 
-import MenuEntry from './MenuEntry';
-import MyMenuScreen from './MyMenuScreen';
 import TouchableItem from '../util/TouchableItem' 
 
 const firestore = firebase.firestore();
@@ -18,8 +16,6 @@ class MenuScreen extends React.Component {
   
   getMenu = () => {
     const menuId = this.props.navigation.getParam("menuId");
-    const auth = firebase.auth();
-    const uid = auth.currentUser.uid;
     const menuRef = firestore.collection('menus');
 
     menuRef
@@ -30,7 +26,6 @@ class MenuScreen extends React.Component {
           menu: {id: querySnapshot.id, ...querySnapshot.data()}
         })
       })
-
      
     }
 
@@ -38,24 +33,13 @@ class MenuScreen extends React.Component {
     this.getMenu();
   };
 
-  handleIngredientChange = () => {
-    
-  };
-
-  handleCookPressed = () => {
-     
-  };
-
-
   render () { 
-    // console.log(this.state.menu.ingredients); 
     const test = Object.keys(this.state.menu.ingredients).map((key) => {
       return {
         id: key,
         ...this.state.menu.ingredients[key]
       }
     });
-    // console.log(test);
     return(
       <View style={styles.container}>
         <Image 
@@ -106,8 +90,7 @@ const  styles = StyleSheet.create({
   image: {
     flex: 0.4,
     flexDirection: 'column',
-    // alignItems: 'stretch',
-    // backgroundColor: 'black',
+
     
   },
   header: {
@@ -121,10 +104,6 @@ const  styles = StyleSheet.create({
   fab: {
     width: 60,
     height: 60,
-
-    // flex: 0.1,
-    // // flexDirection: 'row-reverse',
-    // justifyContent: 'flex-end',
   },
   
 });
