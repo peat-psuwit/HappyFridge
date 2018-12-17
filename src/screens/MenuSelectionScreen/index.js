@@ -23,6 +23,12 @@ class MenuSelectionScreen extends React.Component {
     return <IngredientEntry id={id} />;
   }
 
+  handleMenuSelected = (menuId) => {
+    const { navigation } = this.props;
+
+    navigation.navigate('MenuScreen', { menuId });
+  }
+
   render() {
     const { navigation } = this.props;
     const { selectedItems = [] } = navigation.state.params || {};
@@ -58,6 +64,7 @@ class MenuSelectionScreen extends React.Component {
           <MenuFinder
             ingredients={selectedItems}
             difficulity={this.state.difficulity}
+            onMenuSelected={this.handleMenuSelected}
           />
         </View>
       </View>

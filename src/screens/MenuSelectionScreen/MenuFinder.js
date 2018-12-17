@@ -62,8 +62,10 @@ class MenuFinder extends React.Component {
   }
 
   renderMenu = ({ item }) => {
+    const onPress =
+      () => this.props.onMenuSelected(item._id);
     return (
-      <TouchableItem>
+      <TouchableItem onPress={onPress}>
         <View style={styles.menuContainer}>
           <Image
             source={{ uri: item.picture }}
