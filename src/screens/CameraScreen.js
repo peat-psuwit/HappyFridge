@@ -4,7 +4,7 @@ import { RNCamera } from 'react-native-camera';
 
 function CameraScreen({ navigation }) {
   takePicture = async function(camera) {
-    const options = { quality: 0.5 };
+    const options = { quality: 0.5, fixOrientation: true };
     const data = await camera.takePictureAsync(options);
     navigation.navigate("InputScreen", { imageData:data });
   }
