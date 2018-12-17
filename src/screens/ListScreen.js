@@ -3,7 +3,11 @@ import { View, Text,StyleSheet,Image, FlatList, ActivityIndicator ,TouchableOpac
 import { List, SearchBar } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 import moment from 'moment' ;
+
+import TouchableItem from '../util/TouchableItem';
+
 const firestore = firebase.firestore();
+
 class ListScreen extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +56,7 @@ class ListScreen extends Component {
       );
     }
     return (
-      <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+      <View style={StyleSheet.absoluteFill}>
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => {
@@ -95,8 +99,15 @@ class ListScreen extends Component {
           keyExtractor={item => item.name}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
-        />       
-      </List>
+        />
+
+        <TouchableItem
+          style={styles.fab}
+          onPress={() => this.props.navigation.navigate('CameraScreen')}
+        >
+          <Text>+</Text>
+        </TouchableItem>
+      </View>
     );
   }
   renderSeparator = () => {
@@ -196,5 +207,20 @@ const styles = StyleSheet.create ({
      height: 40,
      borderColor: '#7a42f4',
      borderWidth: 1
+  },
+
+  fab: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
+
+    width: 56,
+    height: 56,
+    borderRadius: 56 / 2,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor: 'lightgray',
   },
 })
