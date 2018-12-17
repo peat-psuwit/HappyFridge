@@ -20,6 +20,18 @@ export default class TouchableItem extends React.Component {
     pressColor: 'rgba(0, 0, 0, .32)'
   };
 
+  // Peat: custom handlePress function to make use of requestAnimationFrame
+  handlePress = (...args) => {
+    const { onPress } = this.props;
+
+    if (onPress) {
+      // requestAnimationFrame is used to ensure ripple effect on Android
+      requestAnimationFrame(() => {
+        onPress(...args);
+      });
+    }
+  }
+
   render() {
     /*
      * TouchableNativeFeedback.Ripple causes a crash on old Android versions,
@@ -31,11 +43,11 @@ export default class TouchableItem extends React.Component {
      */
     if (Platform.OS === 'android' && Platform.Version >= ANDROID_VERSION_LOLLIPOP) {
       const { style, ...rest } = this.props;
-      return <TouchableNativeFeedback {...rest} style={null} background={TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless)}>
+      return <TouchableNativeFeedback {...rest} onPress={this.handlePress} style={null} background={TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless)}>
           <View style={style}>{React.Children.only(this.props.children)}</View>
         </TouchableNativeFeedback>;
     }
 
-    return <TouchableOpacity {...this.props}>{this.props.children}</TouchableOpacity>;
+    return <TouchableOpacity {...this.props} onPress={this.handlePress}>{this.props.children}</TouchableOpacity>;
   }
 }
