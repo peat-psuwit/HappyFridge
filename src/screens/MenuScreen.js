@@ -38,8 +38,8 @@ class MenuScreen extends React.Component {
     this.getMenu();
   };
 
-  handleIngredientChange = ({ingredients}) => {
-
+  handleIngredientChange = () => {
+    
   };
 
   handleCookPressed = () => {
@@ -76,7 +76,7 @@ class MenuScreen extends React.Component {
           />
         </View>
         <Text style = {styles.bold}>วิธีทำ</Text>
-        <Text> {this.state.menu.instruction} </Text>
+        <Text> {this.state.menu.instruction + "\n"} </Text>
         <TouchableItem
             style = {styles.fab}
             onPress={() => {
