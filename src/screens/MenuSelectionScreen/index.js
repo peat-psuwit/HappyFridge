@@ -55,7 +55,10 @@ class MenuSelectionScreen extends React.Component {
             />
           </View>
 
-          <MenuFinder />
+          <MenuFinder
+            ingredients={selectedItems}
+            difficulity={this.state.difficulity}
+          />
         </View>
       </View>
     );
